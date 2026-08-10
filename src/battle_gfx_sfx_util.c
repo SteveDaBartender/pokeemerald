@@ -397,7 +397,8 @@ void SpriteCB_TrainerSlideIn(struct Sprite *sprite)
 {
     if (!(gIntroSlideFlags & 1))
     {
-        sprite->x2 += sprite->sSpeedX;
+        sprite->x2 = 0;
+        //sprite->x2 += sprite->sSpeedX;
         if (sprite->x2 == 0)
         {
             if (sprite->y2 != 0)
@@ -405,6 +406,18 @@ void SpriteCB_TrainerSlideIn(struct Sprite *sprite)
             else
                 sprite->callback = SpriteCallbackDummy;
         }
+    }
+}
+
+void SpriteCB_TrainerSpawn(struct Sprite *sprite)
+{
+    if (!(gIntroSlideFlags & 1))
+    {
+        sprite->x2 = 0;
+        if (sprite->y2 != 0)
+            sprite->callback = SpriteCB_TrainerSlideVertical;
+        else
+            sprite->callback = SpriteCallbackDummy;
     }
 }
 

@@ -413,7 +413,12 @@ static u8 UpdateNormalPaletteFade(void)
 
     if (IsSoftwarePaletteFadeFinishing())
     {
-        return gPaletteFade.active ? PALETTE_FADE_STATUS_ACTIVE : PALETTE_FADE_STATUS_DONE;
+        return PALETTE_FADE_STATUS_DONE;
+    }
+
+    else if (!gPaletteFade.active)
+    {
+        return PALETTE_FADE_STATUS_DONE;
     }
     else
     {
@@ -421,8 +426,8 @@ static u8 UpdateNormalPaletteFade(void)
         {
             if (gPaletteFade.delayCounter < gPaletteFade_delay)
             {
-                gPaletteFade.delayCounter++;
-                return 2;
+                gPaletteFade.delayCounter+=4;
+                return PALETTE_FADE_STATUS_ACTIVE;
             }
             gPaletteFade.delayCounter = 0;
         }
@@ -466,16 +471,14 @@ static u8 UpdateNormalPaletteFade(void)
 
                 if (!gPaletteFade.yDec)
                 {
-                    val = gPaletteFade.y;
-                    val += gPaletteFade.deltaY;
+                    val = gPaletteFade.y + gPaletteFade.deltaY * 2;
                     if (val > gPaletteFade.targetY)
                         val = gPaletteFade.targetY;
                     gPaletteFade.y = val;
                 }
                 else
                 {
-                    val = gPaletteFade.y;
-                    val -= gPaletteFade.deltaY;
+                    val = gPaletteFade.y - gPaletteFade.deltaY * 2;
                     if (val < gPaletteFade.targetY)
                         val = gPaletteFade.targetY;
                     gPaletteFade.y = val;
@@ -483,8 +486,6 @@ static u8 UpdateNormalPaletteFade(void)
             }
         }
 
-        // gPaletteFade.active cannot change since the last time it was checked. So this
-        // is equivalent to `return PALETTE_FADE_STATUS_ACTIVE;`
         return gPaletteFade.active ? PALETTE_FADE_STATUS_ACTIVE : PALETTE_FADE_STATUS_DONE;
     }
 }

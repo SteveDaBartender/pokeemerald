@@ -809,16 +809,11 @@ static bool8 IsSoftwarePaletteFadeFinishing(void)
 {
     if (gPaletteFade.softwareFadeFinishing)
     {
-        if (gPaletteFade.softwareFadeFinishingCounter == 4)
-        {
-            gPaletteFade.active = FALSE;
-            gPaletteFade.softwareFadeFinishing = FALSE;
-            gPaletteFade.softwareFadeFinishingCounter = 0;
-        }
-        else
-        {
-            gPaletteFade.softwareFadeFinishingCounter++;
-        }
+
+        gPaletteFade.active = FALSE;
+        gPaletteFade.softwareFadeFinishing = FALSE;
+        gPaletteFade.softwareFadeFinishingCounter = 0;
+
 
         return TRUE;
     }
